@@ -1,0 +1,46 @@
+.btn-custom-primary{
+  background-color: #6947BF !important;
+  color: white !important;
+}
+.btn-custom-primary:hover{
+  border:1px solid #6947BF !important;
+  background-color: unset !important;
+  color: #6947BF !important;
+}
+.btn-outline-custom-primary{
+  border:1px solid #6947BF !important;
+  color: #6947BF !important;
+}
+.btn-outline-custom-primary:hover{
+  background-color: #6947BF !important;
+  color: white !important;
+}
+
+.side-nav-link{
+  font-size: larger !important;
+  padding: 5px 10px !important;
+  margin-bottom: 8% !important;
+}
+.side-nav-link.active{
+  background-color: #6947BF !important;
+  color: white !important;
+}
+.side-nav-link.active:focus{
+  background-color: #6947BF !important;
+  color: white !important;
+}
+
+.content{
+  background-color: #E5ECF3;
+  border-radius: 20px 0 0 0;
+}
+
+.card-img-top{
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+
+.blog-image{
+  aspect-ratio: 2/1 !important;
+  object-fit: cover !important;
+}

@@ -1,0 +1,63 @@
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
+
+const LoginForm = ({ setToken }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/login`, { email, password });
+      console.log('Login successful:', response.data);
+      localStorage.setItem('token', response.data.token);
+      setToken(response.data.token);
+      navigate('/'); 
+    } catch (error) {
+      console.error('Login error:', error.response.data);
+    }
+  };
+
+  return (
+    <div className='d-flex justify-content-center align-items-center mt-5'>
+      <div className="col-md-3 bg-white p-3 mt-4 rounded-4 shadow">
+        <h2>Login</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">Email address</label>
+            <input
+              type="email"
+              className="form-control"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">Password</label>
+            <input
+              type="password"
+              className="form-control"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <div className='text-center'>
+            <button type="submit" className="btn btn-custom-primary">Login</button>
+          </div>
+        </form>
+        <div className='mt-3 text-center'>
+          Don't have an account? 
+          <Link to="/signup" className="text-primary">Join Now</Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LoginForm;
