@@ -39,10 +39,14 @@ const PostDetail = () => {
     <div className="container mt-4 px-5">
       <div className='px-5'>
         <span className='fw-bolder fs-1'>{post.title}</span>
+        <div className='d-flex '>
+
         <p className='text-muted'><strong>Published:</strong> <br/> {formatTimeAgo(post.publishDate)}</p>
+        <p className='text-muted ms-3'><strong>By:</strong> <br/> {post.userId.username}</p>
+        </div>
       </div>
       {post.imageUrl && <img src={`${process.env.REACT_APP_API_URL}${post.imageUrl}`} alt={post.title} className="img-fluid my-3 blog-image" />}
-      <div dangerouslySetInnerHTML={{ __html: post.content }} />
+      <div className='bg-white p-3 border rounded' dangerouslySetInnerHTML={{ __html: post.content }} />
       <CommentSection postId={id} token={token} /> {/* Add CommentSection here */}
     </div>
   );

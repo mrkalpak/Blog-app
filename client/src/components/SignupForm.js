@@ -6,10 +6,43 @@ const SignupForm = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const validatePassword = (password) => {
+    const minLength = 8;
+    const hasNumber = /\d/;
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/;
+    const hasUpperCase = /[A-Z]/;
+    const hasLowerCase = /[a-z]/;
+
+    if (password.length < minLength) {
+      return "Password must be at least 8 characters long.";
+    }
+    if (!hasNumber.test(password)) {
+      return "Password must contain at least one number.";
+    }
+    if (!hasSpecialChar.test(password)) {
+      return "Password must contain at least one special character.";
+    }
+    if (!hasUpperCase.test(password)) {
+      return "Password must contain at least one uppercase letter.";
+    }
+    if (!hasLowerCase.test(password)) {
+      return "Password must contain at least one lowercase letter.";
+    }
+    return "";
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+      setError(passwordError);
+      return;
+    }
+
+    setError(""); // Clear any previous error
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/auth/register`,
@@ -19,6 +52,7 @@ const SignupForm = () => {
       navigate("/login"); // Redirect to login after signup
     } catch (error) {
       console.error("Signup error:", error.response.data);
+      setError(error.response.data.message || "Signup failed, please try again.");
     }
   };
 
@@ -26,6 +60,7 @@ const SignupForm = () => {
     <div className="d-flex justify-content-center align-items-center mt-5">
       <div className="col-md-3 bg-white p-3 mt-4 rounded-4 shadow">
         <h2>Signup</h2>
+        {error && <div className="alert alert-danger">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="username" className="form-label">

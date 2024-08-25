@@ -20,10 +20,19 @@ exports.registerUser = async (req, res) => {
       token: generateToken(user._id),
     });
   } catch (err) {
-    console.error(err)
+    console.error(err);
+    
+    // Handle duplicate key error
+    if (err.code === 11000) {
+      const duplicateField = Object.keys(err.keyValue)[0]; // Get the field that caused the duplicate error
+      return res.status(400).json({ message: `${duplicateField} already exists.` });
+    }
+    
+    // Handle other errors
     res.status(400).json({ message: err.message });
   }
 };
+
 
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
